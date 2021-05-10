@@ -10,11 +10,20 @@
                <li><a href="{{ route('products') }}">Products</a></li>
                <li><a href="#testimonial">Testimonial</a></li>
                <li><a href="#footer">Contact</a></li>
-               <li><a href="{{ route('auth') }}">Login/Register</a></li>
+               @if (!Auth::check())
+                  <li><a href="{{ route('auth') }}">Login/Register</a></li>
+               @else
+                  <li><a href="{{ route('auth.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></li>
+                  <form id="logout-form" action="{{ route('auth.logout') }}" method="POST" class="d-none">
+                     @csrf
+                  </form>
+               @endif
             </ul>
          </nav>
-         <a href="{{ route('cart') }}"><img src="{{ asset('assets/images/cart.png') }}" alt="cart" width="30px" height="30px"></a>
-         <img src="assets/images/menu.png" alt="menu" class="menu-icon" onclick="menuToggle()">
+         @if (Auth::check())
+            <a href="{{ route('cart') }}"><img src="{{ asset('assets/images/cart.png') }}" alt="cart" width="30px" height="30px"></a>
+            <img src="assets/images/menu.png" alt="menu" class="menu-icon" onclick="menuToggle()">
+         @endif
       </div>
       @if(isset($landing) && $landing == true)
       <div class="row">

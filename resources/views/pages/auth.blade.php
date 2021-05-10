@@ -17,17 +17,20 @@
                         <hr id="indicator">
                      </div>
 
-                     <form id="loginForm">
-                         <input type="text" placeholder="Username">
-                         <input type="password" placeholder="Password">
+                     <form id="loginForm" method="POST" action="{{ route('auth.login') }}">
+                        @csrf
+                         <input type="email" placeholder="Username" id="email" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                         <input type="password" placeholder="Password" id="password" name="password" required autocomplete="current-password">
                          <button type="submit" class="btn">Login</button>
                          <a href="">Forgot Password</a>
                      </form>
 
-                     <form id="registerForm">
-                         <input type="text" placeholder="Username">
-                         <input type="email" placeholder="Email">
-                         <input type="password" placeholder="Password">
+                     <form id="registerForm" method="POST" action="{{ route('auth.register') }}">
+                        @csrf
+                         <input type="text" placeholder="Username" id="name" name="name" value="{{ old('name') }}" autocomplete="name" autofocus>
+                         <input type="email" placeholder="Email" id="email" name="email" value="{{ old('email') }}" autocomplete="email">
+                         <input type="password" placeholder="Password" id="password" name="password">
+                         <input type="password" placeholder="Retype Password" id="password-confirm" name="password_confirmation">
                          <button type="submit" class="btn">Register</button>
                      </form>
                 </div>

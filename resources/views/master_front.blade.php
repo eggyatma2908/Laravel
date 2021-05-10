@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     @include('front_end_partials.head')
+
+    @stack('css')
 </head>
 <body>
    <!-- start header section -->

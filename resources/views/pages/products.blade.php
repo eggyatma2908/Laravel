@@ -14,150 +14,18 @@
     </div>
    <!-- start all products products -->
    <div class="row">
-     <div class="col-4">
-         <img src="assets/images/product-1.jpg" alt="product-1">
-         <h4>Red Printed T-shirt</h4>
-         <div class="rating">
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star-o"></i>
+      @foreach ($products as $item)
+         <div class="col-4">
+            <a href="{{ route('products.details', $item->id) }}"><img src="{{ asset('storage/assets/images/gallery/1080x1440').'/'.$item->imageUploaded[0]->name }}" alt="{{ $item->slug }}"></a>
+            <a href="{{ route('products.details', $item->id) }}"><h4>{{ $item->title }}</h4></a>
+            <div class="rating">
+               @for ($i = 0; $i < 5; $i++)
+                  <i class="fa fa-star{{ $item->rating <= $i ? '-o' : '' }}"></i>
+               @endfor
+            </div>
+            <p>${{ $item->price }}.00</p>
          </div>
-         <p>$50.00</p>
-      </div>
-      <div class="col-4">
-         <img src="assets/images/product-2.jpg" alt="product-2">
-         <h4>Red Printed T-shirt</h4>
-         <div class="rating">
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star-o"></i>
-         </div>
-         <p>$50.00</p>
-      </div>
-      <div class="col-4">
-         <img src="assets/images/product-3.jpg" alt="product-3">
-         <h4>Red Printed T-shirt</h4>
-         <div class="rating">
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star-half-o"></i>
-         </div>
-         <p>$50.00</p>
-      </div>
-      <div class="col-4">
-         <img src="assets/images/product-4.jpg" alt="product-4">
-         <h4>Red Printed T-shirt</h4>
-         <div class="rating">
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star-o"></i>
-         </div>
-         <p>$50.00</p>
-      </div>
-      <div class="col-4">
-         <img src="assets/images/product-5.jpg" alt="product-5">
-         <h4>Red Printed T-shirt</h4>
-         <div class="rating">
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star-o"></i>
-         </div>
-         <p>$50.00</p>
-      </div>
-      <div class="col-4">
-         <img src="assets/images/product-6.jpg" alt="product-6">
-         <h4>Red Printed T-shirt</h4>
-         <div class="rating">
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star-half-o"></i>
-         </div>
-         <p>$50.00</p>
-      </div>
-      <div class="col-4">
-         <img src="assets/images/product-7.jpg" alt="product-7">
-         <h4>Red Printed T-shirt</h4>
-         <div class="rating">
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star-o"></i>
-         </div>
-         <p>$50.00</p>
-      </div>
-      <div class="col-4">
-         <img src="assets/images/product-8.jpg" alt="product-8">
-         <h4>Red Printed T-shirt</h4>
-         <div class="rating">
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star-o"></i>
-         </div>
-         <p>$50.00</p>
-      </div>
-      <div class="col-4">
-         <img src="assets/images/product-9.jpg" alt="product-9">
-         <h4>Red Printed T-shirt</h4>
-         <div class="rating">
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star-o"></i>
-         </div>
-         <p>$50.00</p>
-      </div>
-      <div class="col-4">
-         <img src="assets/images/product-10.jpg" alt="product-10">
-         <h4>Red Printed T-shirt</h4>
-         <div class="rating">
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star-half-o"></i>
-         </div>
-         <p>$50.00</p>
-      </div>
-      <div class="col-4">
-         <img src="assets/images/product-11.jpg" alt="product-11">
-         <h4>Red Printed T-shirt</h4>
-         <div class="rating">
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star-o"></i>
-         </div>
-         <p>$50.00</p>
-      </div>
-      <div class="col-4">
-         <img src="assets/images/product-12.jpg" alt="product-12">
-         <h4>Red Printed T-shirt</h4>
-         <div class="rating">
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star-o"></i>
-         </div>
-         <p>$50.00</p>
-      </div>
+      @endforeach
    </div>
    <!-- end all products products -->
 

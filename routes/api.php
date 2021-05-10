@@ -2,8 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\API\ProductController;
+use App\Http\Controllers\API\CartController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,3 +21,11 @@ use App\Http\Controllers\API\ProductController;
 // });
 
 Route::post('/products/store', [ProductController::class, 'store']);
+
+Route::middleware(['auth:api'])->group(function () {
+    Route::get('/users/get-all', [UserController::class, 'getAll']);
+    
+    Route::post('/cart/add', [CartController::class, 'addToCart']);
+    Route::post('/cart/checkout', [CartController::class, 'checkout']);
+    Route::delete('/cart/remove/{id}', [CartController::class, 'removeFromCart']);
+});

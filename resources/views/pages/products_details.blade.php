@@ -5,29 +5,24 @@
    <div class="small-container single-product">
        <div class="row">
            <div class="col-2">
-               <img src="{{ asset('assets/images/gallery-1.jpg') }}" alt="gallery-1" width="100%" id="productImg">
+               <img src="{{ asset('storage/assets/images/gallery/600x600').'/'.$product->imageUploaded[0]->name }}" alt="{{ $product->slug }}" width="100%" id="productImg">
 
                <div class="small-img-row">
-                   <div class="small-img-col">
-                       <img src="{{ asset('assets/images/gallery-1.jpg') }}" alt="gallery-1" width="100%" class="small-img">
-                   </div>
-                   <div class="small-img-col">
-                       <img src="{{ asset('assets/images/gallery-2.jpg') }}" alt="gallery-2" width="100%" class="small-img">
-                   </div>
-                   <div class="small-img-col">
-                       <img src="{{ asset('assets/images/gallery-3.jpg') }}" alt="gallery-3" width="100%" class="small-img">
-                   </div>
-                   <div class="small-img-col">
-                       <img src="{{ asset('assets/images/gallery-4.jpg') }}" alt="gallery-4" width="100%" class="small-img">
-                   </div>
+                   @foreach ($product->imageUploaded as $item)
+                        <div class="small-img-col">
+                            <img src="{{ asset('storage/assets/images/gallery/600x600').'/'.$item->name }}" alt="{{ $item->name }}" width="100" class="small-img">
+                        </div>
+                   @endforeach
                </div>
 
            </div>
            <div class="col-2">
+               <input type="hidden" name="product_id" id="product_id" value="{{ $product->id }}">
+               <input type="hidden" name="price" id="price" value="{{ $product->price }}"> 
                <p>Home / T-Shirt</p>
-               <h1>Red Printd T-Shirt by HRX</h1>
-               <h4>$50.00</h4>
-               <select>
+               <h1>{{ $product->title}}</h1>
+               <h4 class="totalPrice"></h4>
+               <select name="size" id="size">
                    <option>Select Size</option>
                    <option>XXL</option>
                    <option>XL</option>
@@ -35,12 +30,12 @@
                    <option>Medium</option>
                    <option>Small</option>
                </select>
-               <input type="number" value="1">
-               <a href="" class="btn">Add To Cart</a>
+               <input type="number" id="quantity" name="quantity" value="1" min="1" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
+               <a href="#" class="btn" id="addToCart">Add To Cart</a>
                
                <h3>Product Details <i class="fa fa-indent"></i></h3>
                <br>
-               <p>Give your summer wardrobe a style upgrade with the HRX Men's Active T-shirt. Team it with a pair of shorts for your morning workout or a denims for an evening out with the guys.</p>
+               <p>{{ $product->description }}</p>
            </div>
        </div>
    </div>
@@ -111,6 +106,10 @@
    </div>
 @endsection
 
+@push('css')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+@endpush
+
 @push('scripts')
     <!-- js for toggle menu (product details) -->
     <script>
@@ -144,5 +143,66 @@
         smallImg[3].onclick = function () {
             productImg.src = smallImg[3].src;
         }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            let product_id = $('#product_id').val();
+            let quantity = $('#quantity').val();
+            let size = $('#size option:selected').val();
+            let is_checkout = 0;
+            let price = $('#price').val();
+
+            $('h4.totalPrice').text('$'+setTotal(price, quantity)+'.00');
+
+            $('#addToCart').on("click", function(e) {
+                e.preventDefault();
+                let data = {
+                    product_id : product_id,
+                    quantity : quantity,
+                    size : size,
+                    total : setTotal(price, quantity),
+                    is_checkout : is_checkout,
+                    _token : "{{ csrf_token() }}",
+                };
+                
+                $.ajax({
+                    url: '{{ route("cart.post") }}',
+                    type: "POST",
+                    data: data,
+                    success: function(res) {
+                        let response = JSON.parse(res)
+                        console.log(response)
+                        
+                        toastr.success(response.message)
+                    },
+                    error : function(err) {
+                        if (Array.isArray(err.responseJSON.message)){
+                            err.responseJSON.message.forEach(function(v) {
+                                toastr.error(v)
+                            })
+                        } else {
+                            toastr.error(err.responseJSON.message)
+                        }
+                    }
+                })
+            })
+
+        $('#quantity').on('change', function (e) {
+            quantity = $(this).val();
+            $('h4.totalPrice').text('$'+setTotal(price, quantity)+'.00');
+        })
+
+        $('#size').on('change', function(e) {
+            size = $(this).val();
+        })
+
+    })
+
+    function setTotal(price, quantity)
+    {
+        return price * quantity
+    }
     </script>
 @endpush

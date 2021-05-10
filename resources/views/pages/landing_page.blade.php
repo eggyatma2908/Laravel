@@ -78,7 +78,19 @@
     <!-- start latest products -->
     <h2 class="title">Latest Products</h2>
     <div class="row">
-       <div class="col-4">
+         @foreach ($latestProduct as $item)
+            <div class="col-4">
+               <a href="{{ route('products.details', $item->id) }}"><img src="{{ asset('storage/assets/images/gallery/1080x1440').'/'.$item->imageUploaded[0]->name }}" alt="{{ $item->slug }}"></a>
+               <a href="{{ route('products.details', $item->id) }}"><h4>{{ $item->title }}</h4></a>
+               <div class="rating">
+                  @for ($i = 0; $i < 5; $i++)
+                     <i class="fa fa-star{{ $item->rating <= $i ? '-o' : '' }}"></i>
+                  @endfor
+               </div>
+               <p>${{ $item->price }}.00</p>
+            </div>
+         @endforeach
+       {{-- <div class="col-4">
           <img src="assets/images/product-5.jpg" alt="product-5">
           <h4>Red Printed T-shirt</h4>
           <div class="rating">
@@ -173,7 +185,7 @@
              <i class="fa fa-star-o"></i>
           </div>
           <p>$50.00</p>
-       </div>
+       </div> --}}
     </div>
     <!-- end latest products -->
  </div>
